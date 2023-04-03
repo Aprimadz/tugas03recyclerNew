@@ -3,7 +3,7 @@ package com.example.tugas03recycler;
 public class MyItem {
 
     static int [] iconlist = {
-            R.drawable.a,R.drawable.b,R.drawable.c,
+            R.drawable.a,R.drawable.q,R.drawable.c,
             R.drawable.d,R.drawable.e,R.drawable.f,
             R.drawable.g
     };

@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.Adapter recyclerViewAdapter;
     RecyclerView.LayoutManager recyclerViewLayoutManager;
     ArrayList<ItemModel> data;
+
+    private AdapterRecyclerView.RecyclerViewClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,24 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        recyclerViewAdapter = new AdapterRecyclerView(this, data);
+        setOnClickListener();
+        recyclerViewAdapter = new AdapterRecyclerView(this, data,listener);
         recyclerView.setAdapter(recyclerViewAdapter);
 
+    }
+
+    private void setOnClickListener() {
+        listener = new AdapterRecyclerView.RecyclerViewClickListener(){
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(),DefaultActivity.class);
+                intent.putExtra("gambar",data.get(position).getImage());
+                intent.putExtra("nama", data.get(position).getName());
+                intent.putExtra("email", data.get(position).getEmail());
+                startActivity(intent);
+            }
+
+        };
     }
 
 }
