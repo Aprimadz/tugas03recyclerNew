@@ -33,8 +33,6 @@
             android:text="Email"
             android:id="@+id/text_email"/>
 
-
-
     </LinearLayout>
 
 </LinearLayout>

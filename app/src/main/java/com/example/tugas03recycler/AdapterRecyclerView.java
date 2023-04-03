@@ -21,15 +21,16 @@ import java.util.ArrayList;
 
 public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.ViewHolder> {
 
+    private RecyclerViewClickListener listener;
     private ArrayList<ItemModel> dataItem;
     private Context context;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView txtNama;
         TextView txtEmail;
         ImageView imageIcon;
-        LinearLayout parentLayout;
+//        LinearLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,13 +38,21 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
             txtNama = itemView.findViewById(R.id.text_nama);
             txtEmail = itemView.findViewById(R.id.text_email);
             imageIcon = itemView.findViewById(R.id.imageList);
-            parentLayout = itemView.findViewById(R.id.parentLayout);
+            //parentLayout = itemView.findViewById(R.id.parentLayout);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listener.onClick(v,getAdapterPosition());
         }
     }
 
-    AdapterRecyclerView(Context context, ArrayList<ItemModel> dataItem){
+    AdapterRecyclerView(Context context, ArrayList<ItemModel> dataItem, RecyclerViewClickListener listener){
         this.context = context;
         this.dataItem = dataItem;
+        this.listener = listener;
     }
 
     @NonNull
@@ -66,21 +75,6 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         txtEmail.setText(dataItem.get(position).getEmail());
         imageIcon.setImageResource(dataItem.get(position).getImage());
 
-        holder.parentLayout.setOnClickListener(v -> {
-
-            Toast.makeText(context,"Anda Memilih " + dataItem.get(position).getName(), Toast.LENGTH_SHORT).show();
-            
-            
-            if(dataItem.get(position).getName().equals("MUHAMMAD DZAKY APRIMA")){
-                Intent intent = new Intent(context, DefaultActivity.class);
-                intent.putExtra("GAMBAR_DEFAULT", R.drawable.a);
-                intent.putExtra("TEKS_DEFAULT", "email activity");
-                context.startActivity(intent);
-            }
-
-
-        });
-
 
 
     }
@@ -88,5 +82,9 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     @Override
     public int getItemCount() {
         return dataItem.size();
+    }
+
+    public interface RecyclerViewClickListener {
+        void onClick(View v, int position);
     }
 }
